@@ -1,0 +1,4 @@
+tissue_NODE Data/Roadmap_Networks/edgelist/cd14_primary_cells.edgelist
+tissue_NODE tissue_stem_NODE
+tissue_stem_NODE Data/Roadmap_Networks/edgelist/fetal_brain.edgelist
+tissue_stem_NODE Data/Roadmap_Networks/edgelist/heart.edgelist
