@@ -1,0 +1,19 @@
+function Get_Edgelist_No_Weight()
+    edgelists = {'/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/Simulated_Networks//Data//t1_2_t2_1//k_10//network.dat',...
+        '/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/Simulated_Networks//Data//t1_2_t2_1//k_25//network.dat',...
+        '/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/Simulated_Networks//Data//t1_2_t2_1//k_50//network.dat',...
+        '/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/Simulated_Networks//Data//t1_2_t2_1//k_100//network.dat'};
+    filename = {'/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/Simulated_Networks//Data//t1_2_t2_1//k_10//network_no_weight.dat',...
+        '/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/Simulated_Networks//Data//t1_2_t2_1//k_25//network_no_weight.dat',...
+        '/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/Simulated_Networks//Data//t1_2_t2_1//k_50//network_no_weight.dat',...
+        '/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/Simulated_Networks//Data//t1_2_t2_1//k_100//network_no_weight.dat'};
+    
+    for i = 1:4
+        edgelist = importdata(edgelists{i});
+        disp(mean(edgelist(:,3)));
+        
+        edgelist = edgelist(edgelist(:,3) >= mean(edgelist(:,3)), :);
+        edgelist = edgelist(:,1:2);
+        dlmwrite(filename{i},edgelist,'delimiter','\t');
+    end
+end
