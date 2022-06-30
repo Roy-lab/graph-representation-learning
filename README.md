@@ -2,37 +2,37 @@
 Comparison of various node embedding algorithms on node classification downstream task
 
 ## Overview
-We benchmarked 3 different node embedding algorithms and spectral clustering methods on (diffused/undiffused) RoadMap project 55 cell lines and on systhetic benchmark grpahs. The following are data pipelines for pre-propressing and post-propressing. Diffused networks are based on the Hi-C genomic analysis technique to learn score for each protein and transfer them to edge weights. 
+We benchmarked three different node embedding algorithms and spectral clustering methods on (diffused/undiffused) RoadMap project 55 cell lines and on synthetic benchmark graphs. The following are data pipelines for pre-processing and post-processing. Diffused networks are based on the Hi-C genomic analysis technique to learn the score for each protein and transfer them to edge weights. 
 
-## Preprosessing graph data
-Below, we describe the usage of each script to generate corresponding adjacency matrix, edge list, node IDs / names, etc.
+## Pre-processing graph data
+Below, we describe the usage of each script to the generate corresponding adjacency matrix, edge list, node IDs/names, etc.
 
 - `Adj_Matrix_Noweight.py` \
-    This file takes a filtered non-weighted graph in edgelist format and transform to adjacency matrix format. Output file can be used by spectral clustering algorithm. 
+    This file takes a filtered non-weighted graph in edgelist format and transforms it into an adjacency matrix format. The Output file can be used by the spectral clustering algorithm. 
 - `Edgelist_Names.py`,`Edgelist_Names_No_Weight.py` \
-    These files match the node numerical IDs to literal IDs in edgelist format. Output file can be used in Silhouette and Modularity Index Scripts when the algorithms need to match the node cluster labels to corresponding node IDs. 
+    These files match the numerical node IDs to literal IDs in edgelist format. Output files can be used in Silhouette and Modularity Index Scripts when the algorithms need to match the node cluster labels to corresponding node IDs. 
 - `Get_Avg_Node_Degree.py` \
-    This file takes an edgelist format graph as input and compute the average and standard deviation of node degree in the graph. The result can be an indicator to the hyperparameters when constructing systhetic benchmark graphs. 
+    This file takes an edgelist format graph as input and computes the average and standard deviation of node degree in the graph. The result can be an indicator to the hyperparameters when constructing synthetic benchmark graphs. 
 - `Get_Edgelist.py`, `Get_EdgeList_No_Weight.py` \
     These files take an adjacency matrix as input, extracting edges and/or edge weights and store the graph in edgelist format. 
 - `Get_Large_Conn.m` \
-    This MATLAB script takes an graph in edgelist format and computes the largest connected commponent in the graph. If there is only one connected component, then the output is identical to the input. This script is used mainly on filtered unweighted graph where some graph segements might become isolated during filtering. 
+    This MATLAB script takes a graph in edgelist format and computes the largest connected component in the graph. If there is only one connected component, then the output is identical to the input. This script is used mainly on the filtered unweighted graph, where some graph segments might become isolated during filtering. 
 
-## Postprosessing cluster labels
-After we retrieve the node cluster labels through applying K-Means clustering on node embeddings, we need to match the labels with correct nodes
+## Postprocessing cluster labels
+After we retrieve the node cluster labels through applying K-Means clustering on node embeddings, we need to match the labels with the correct nodes
 
 - `IDTONAME.py` \
-    This file is used by labels learned from spectral clustering and node2vec algorithms. They both use the weighted undirected graphs.
+    This file is used by labels learned from spectral clustering and node2vec algorithms. They both use weighted undirected graphs.
 - `IDTONAME_DEEP.py` \
-    This file is used by labels learned from DeepWalk algorithm. It utilize the filtered unweighted undirected graphs.
+    This file is used by labels learned from the DeepWalk algorithm. It utilizes the filtered unweighted undirected graphs.
 - `IDTONAME_OHMNET.py` \
-    This file is used by labels learned from Ohmnet algorithm. Since we need to align nodes with same literal IDs across mutliple graphs, we iterate through all nodes in all networks and assign each unique node a novel numerial ID. After we got the cluster labels, we have to match those with correct node literal IDs.
+    This file is used by labels learned from the Ohmnet algorithm. Since we need to align nodes with same literal IDs across mutliple graphs, we iterate through all nodes in all networks and assign each unique node a novel numerial ID. After we get the cluster labels, we have to match those with correct node literal IDs.
     
 ## Ohmnet specific scripts 
 - `Ohmnet_Extract.py` \
-    This python script reads all the weighted graphs in edgelist format, extracts unique nodes across all network layers and assigns a new numerical ID to each node. The corresponeding edgelist and node ID list are store in the same folder. 
+    This python script reads all the weighted graphs in edgelist format, extracts unique nodes across all network layers and assigns a new numerical ID to each node. The corresponding edgelist and node ID list are stored in the same folder. 
 
-# Running different node embedding algorthms
+# Running different node embedding algorithms
 Below, we describe usage scripts on RoadMap project cell lines which can be found in [here](RoadMap_Networks/Data/RoadMap_Networks)
 
 * [Spectral Clustering](#Spectral_Clustering)
@@ -46,8 +46,8 @@ Below, we describe usage scripts on RoadMap project cell lines which can be foun
 The adjacency matrix of cell line networks \
 *Outputs*: 
 
-The node cluster labels in a single line separated by comma \
-*Note*: Cluster labels follow the order of nodes in adjacency matrix, thus it is suggested to sort the nodes by IDs
+The node cluster labels in a single line separated by a comma \
+*Note*: Cluster labels follow the order of nodes in the adjacency matrix, thus it is suggested to sort the nodes by IDs
 
 *Scripts*:
 
@@ -76,14 +76,14 @@ node1_id_int node2_id_int <weight_float, optional>
 ```shell
 number_of_nodes embedding_dimension
 ```
-and the following lines contains node embeddings with the start of node IDs
+and the following lines contain node embeddings with the start of node IDs
 ```shell
 node_ID <embeddings>
 ```
 <br />
-The Original source code can be found at [snap](https://github.com/snap-stanford/snap/tree/master/examples/node2vec) library.
+The original source code can be found at [snap](https://github.com/snap-stanford/snap/tree/master/examples/node2vec) library.
 
-Example commend lines to run node2vec
+Example command lines to run node2vec
 ```shell
 conda create py37 python==3.7
 conda activate py37
@@ -110,14 +110,14 @@ node1_id_int node2_id_int
 ```shell
 number_of_nodes embedding_dimension
 ```
-and the following lines contains node embeddings with the start of node IDs
+and the following lines contain node embeddings with the start of node IDs
 ```shell
 node_ID <embeddings>
 ```
 <br />
-The Original source code can be found at [deepwalk](https://github.com/phanein/deepwalk) library.
+The original source code can be found at [deepwalk](https://github.com/phanein/deepwalk) library.
 
-Example commend lines to create environment
+Example command lines to create the environment
 ```shell
 conda create py37 python==3.7
 conda activate py37
@@ -141,25 +141,25 @@ Command line arguments \
 *Inputs*: 
 
 The `tissue.list` file contains absolute paths to all cell line networks in each line.
-The `tissue.hierarchy` file includes the tree structure hiearchy structure with all network file names stored at leaf nodes. 
+The `tissue.hierarchy` file includes the tree structure hierarchy structure with all network file names stored at leaf nodes. 
 Here is an overview of the hierarchy tree 
 ![tree](RoadMap_Networks/Data/Roadmap_Networks/tree.png)
 
 *Outputs*: 
 
-The output file `leaf_vectors.emb` contains embeddings for nodes at the level of leaves in the hierarchy (we care more about this because it contains embbedings for our biological networks. \
+The output file `leaf_vectors.emb` contains embeddings for nodes at the level of leaves in the hierarchy (we care more about this because it contains embeddings for our biological networks. \
 The output file `internal_vectors.emb` contains embeddings for nodes at higher levels in the hierarchy.
 <br />
 These files contain n + 1 lines where the first line has the format
 ```shell
 number_of_nodes_in_layers embedding_dimension
 ```
-and the following lines contains node embeddings with the start of node IDs
+and the following lines contain node embeddings with the start of node IDs
 ```shell
 node_ID <embeddings>
 ```
 <br />
-The Original source code can be found at [ohmnet](https://github.com/mims-harvard/ohmnet) library.
+The original source code can be found at [ohmnet](https://github.com/mims-harvard/ohmnet) library.
 
 Example commend lines to create environment
 ```shell
@@ -175,7 +175,7 @@ Command line arguments \
 `--weighted`: We have to special that networks are unweighted
 
 # Synthetic Benchmark Graphs
-We generate 40 networks stimulating real-world networks and apply various node embedding and node classifcation techniques on them. We follow the processure described in [Benchmark graphs for testing community detection algorithms](https://arxiv.org/abs/0805.4770) with different choices of hyperparameters. 
+We generate 40 networks stimulating real-world networks and apply various node embedding and node classification techniques to them. We follow the procedure described in [Benchmark graphs for testing community detection algorithms](https://arxiv.org/abs/0805.4770) with different choices of hyperparameters. 
 
 ## Code Link
 [https://www.santofortunato.net/resources](https://www.santofortunato.net/resources) under LFR benchmark graphs
@@ -219,17 +219,17 @@ I used the package 2 to generate undirected weighted graphs
 ```
 
 # Kmeans Clustering
-After we get the node embeddings from each algorithm, we need to perform node classifcation based on the embeddings in the latent space. We choose to use K-Means clustering is the most common and popular one in unsupervised learning field. 
+After we get the node embeddings from each algorithm, we need to perform node classification based on the embeddings in the latent space. We choose to use K-Means clustering is the most common and popular one in the unsupervised learning field. 
 
 ## Scripts and usage
-`kmeansCluster.m`: It takes the embedding file as input and sort the embedding based on node IDs ascending. Then it perform K-Means clustering on the embedding space and output cluster labels
+`kmeansCluster.m`: It takes the embedding file as input and sorts the embedding based on node IDs ascending. Then it performs K-Means clustering on the embedding space and output cluster labels
 
 ```shell
 sed -i '1d' network_1_features.emb
 matlab -nodesktop -nodisplay
 >> kmeansCluster('node2vec_64d');
 ```
-note: the `sed` commend remove the first line of embedding files which contains basic information
+note: the `sed` command removes the first line of embedding files which contains basic information
 ```shell
 number_of_nodes embedding_dimension
 ```
@@ -249,9 +249,9 @@ Rscript Scripts/modularity.R node2vec_64d
 ```
 
 ### Silhouette Metric
-`\Scripts\SilhouetteIndex\calcA.m`: Calculate the distance matrix for each nodes based on the average edge weighted connected to it
+`\Scripts\SilhouetteIndex\calcA.m`: Calculate the distance matrix for each node based on the average edge weights connected to it
 `\Scripts\SilhouetteIndex\getSil.m`: Retrieve the Silhouette score for each node in the graph
-`\Scripts\SilhouetteIndex\runSil.m`: Align the node cluster labels to unique nodes and calculate the silhouette score of whole graph
+`\Scripts\SilhouetteIndex\runSil.m`: Align the node cluster labels to unique nodes and calculate the silhouette score of the whole graph
 
 *Usage*:
 ```shell
