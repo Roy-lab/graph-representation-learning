@@ -41,9 +41,21 @@ Below, we describe usage scripts on RoadMap project cell lines which can be foun
 * [Ohmnet](#ohmnet)
 
 ### Spectral Clustering
-Inputs: The adjacency matrix of cell line networks \
-Outputs: The node cluster labels in a single line separated by comma \
-Note: Cluster labels follow the order of nodes in adjacency matrix, thus it is suggested to sort the nodes by IDs
+*Inputs*: 
+
+The adjacency matrix of cell line networks \
+*Outputs*: 
+
+The node cluster labels in a single line separated by comma \
+*Note*: Cluster labels follow the order of nodes in adjacency matrix, thus it is suggested to sort the nodes by IDs
+
+*Scripts*:
+
+`doSpect2_addMean.m`: In this script, we read an adjacency matrix into matrix format in MATLAB and compute the graph Laplacian based on this formula \
+<img width="195" alt="image" src="https://user-images.githubusercontent.com/61021277/176759050-d24623c3-2f36-4334-88ca-d22e788b1b5e.png"> \
+After, we calculate the eigenvectors and eigenvalues of Graph Laplacian and sort them based on eigenvalues descending.
+Since each column of eigenvector matrix stores a unique eigenvector, we take each row and assign to the corresponding node as its embedding. We then perform K-Means clustering for node classification. 
+
 
 Example to execute the script: 
 ```shell
@@ -131,7 +143,7 @@ Command line arguments \
 The `tissue.list` file contains absolute paths to all cell line networks in each line.
 The `tissue.hierarchy` file includes the tree structure hiearchy structure with all network file names stored at leaf nodes. 
 Here is an overview of the hierarchy tree 
-![tree](\Data\Roadmap_Networks\tree.png)
+![tree](RoadMap_Networks/Data/Roadmap_Networks/tree.png)
 
 *Outputs*: 
 
@@ -162,6 +174,90 @@ Command line arguments \
 `--dimension`: embedding dimension (default == 128) \
 `--weighted`: We have to special that networks are unweighted
 
+# Synthetic Benchmark Graphs
+We generate 40 networks stimulating real-world networks and apply various node embedding and node classifcation techniques on them. We follow the processure described in [Benchmark graphs for testing community detection algorithms](https://arxiv.org/abs/0805.4770) with different choices of hyperparameters. 
 
+## Code Link
+[https://www.santofortunato.net/resources](https://www.santofortunato.net/resources) under LFR benchmark graphs
+![image](https://user-images.githubusercontent.com/61021277/176755854-a63bedb5-1d4a-4219-8e15-f9cf6e8f5b58.png)
+I used the package 2 to generate undirected weighted graphs
 
+## Parameter description  
+`t1` : exponents of the power distribution for node degrees\
+`t2` : exponents of the power distribution for community sizes\
+`N` : the number of nodes \
+`K` : the average degree of the nodes \
+`kmin` : the minimum degree of nodes\
+`kmax` : the maximum degree of nodes\
+`mux` : the mixing parameter indicating the fraction of each node where its outgoing edge is connected to the same community or a different community\
+`smin` : the minimal community size\
+`smax` : the maximal community size
+
+## Experience choice:
+- N is set to 1000 as the original RoadMap graphs have approximately 1000 nodes in all 55 cell lines
+
+- t1 is set to 2 and t2 is set to 1. In the LFR paper, the common range for t1 is [2, 3] and for t2 is [1, 2]
+
+- K is set to [10, 25, 50, 100]. From unnormalized RoadMap networks, the average node degree of 55 cell lines is about 25.84 with a standard deviation of 10.56
+
+- Kmax is set to [15, 50, 75, 125] with respect to the average node degree
+
+- mux is set to [0.1, 0.5]. For 0.1, the network is pretty sparse and the network communities are easy to be detected. However, for 0.5, each network community has an equal number of edges outgoing to a different community or within its own community. This is more similar to the full network used in the normalized Roadmap networks
+
+- other parameters are default values
+
+## File generated: 
+1) network.dat contains the list of edges (nodes are labeled from 1 to the number of nodes; the edges are ordered and repeated twice, i.e. source-target and target-source), with the relative weight.
+
+2) community.dat contains a list of the nodes and their membership (memberships are labeled by integer numbers >=1).
+
+3) statistics.dat contains the degree distribution (in logarithmic bins), the community size distribution, the distribution of the mixing parameter for the topology and the weights, and the internal and external weight distribution.
+
+## Example commend line to use the package:
+```shell
+./benchmark -N 1000 -k 25 -maxk 50 -muw 0.1 -t1 2 -t2 1
+```
+
+# Kmeans Clustering
+After we get the node embeddings from each algorithm, we need to perform node classifcation based on the embeddings in the latent space. We choose to use K-Means clustering is the most common and popular one in unsupervised learning field. 
+
+## Scripts and usage
+`kmeansCluster.m`: It takes the embedding file as input and sort the embedding based on node IDs ascending. Then it perform K-Means clustering on the embedding space and output cluster labels
+
+```shell
+sed -i '1d' network_1_features.emb
+matlab -nodesktop -nodisplay
+>> kmeansCluster('node2vec_64d');
+```
+note: the `sed` commend remove the first line of embedding files which contains basic information
+```shell
+number_of_nodes embedding_dimension
+```
+
+# Evaluation Metrics
+we compare and evaluate the performance of the node embedding learning algorithm based on the modularity index and the silhouette index. Both metrics are widely used to measure the strength of graph node segmentation and their maximation refers to the identification of node clusters with strong interconnections among nodes in their clusters.
+
+## Modularity Metric
+`\Scripts\Modularity\modularity.R`: calculate the modularity score for weighted graphs
+`\Scripts\Modularity\modularity_no_weight.R`: calculate the modularity score for unweighted graphs
+
+*Usage*:
+```shell
+conda create -n r_env r-essentials r-base
+conda activate r_env
+Rscript Scripts/modularity.R node2vec_64d
+```
+
+### Silhouette Metric
+`\Scripts\SilhouetteIndex\calcA.m`: Calculate the distance matrix for each nodes based on the average edge weighted connected to it
+`\Scripts\SilhouetteIndex\getSil.m`: Retrieve the Silhouette score for each node in the graph
+`\Scripts\SilhouetteIndex\runSil.m`: Align the node cluster labels to unique nodes and calculate the silhouette score of whole graph
+
+*Usage*:
+```shell
+cd <path to adjacency matrix>
+matlab -nodesktop -nodisplay
+>> addpath('<path to Silhouette folder>');
+>> runSil('node2vec_64d');
+```
 
