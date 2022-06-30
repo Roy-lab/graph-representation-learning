@@ -41,8 +41,127 @@ Below, we describe usage scripts on RoadMap project cell lines which can be foun
 * [Ohmnet](#ohmnet)
 
 ### Spectral Clustering
+Inputs: The adjacency matrix of cell line networks \
+Outputs: The node cluster labels in a single line separated by comma \
+Note: Cluster labels follow the order of nodes in adjacency matrix, thus it is suggested to sort the nodes by IDs
+
+Example to execute the script: 
+```shell
+matlab -nodesktop -display
+>> doSpect2_addMean;
+```
 
 ### node2vec
-    
+*Inputs*: 
+
+The edgelist format graphs with numerical node IDs. The graph can be either weighted or unweighted. 
+```shell
+node1_id_int node2_id_int <weight_float, optional>
+```
+*Outputs*: 
+
+.emb file containing n + 1 lines where the first line has the format
+```shell
+number_of_nodes embedding_dimension
+```
+and the following lines contains node embeddings with the start of node IDs
+```shell
+node_ID <embeddings>
+```
+<br />
+The Original source code can be found at [snap](https://github.com/snap-stanford/snap/tree/master/examples/node2vec) library.
+
+Example commend lines to run node2vec
+```shell
+conda create py37 python==3.7
+conda activate py37
+cd <path to work space>
+Scripts/snap/examples/node2vec/node2vec -i:Data/edgelist/"$cell".edgelist -o:Results/embeddings/node2vec_64d/"$cell"_features.emb -d:64 -p:1 -q:1
+```
+Command line arguments \
+`-i`: the input path \
+`-o`: the path where output files will be saved \
+`-d`: embedding dimension (default == 128) \
+`-p`: the return parameter (deafult == 1) \
+`-q`: the in-out parameter (default == 1)
+
+### DeepWalk
+*Inputs*: 
+
+The edgelist or adjacency matrix format graphs with numerical node IDs. The graph should be unweighted. 
+```shell
+node1_id_int node2_id_int
+```
+*Outputs*: 
+
+.emb file containing n + 1 lines where the first line has the format
+```shell
+number_of_nodes embedding_dimension
+```
+and the following lines contains node embeddings with the start of node IDs
+```shell
+node_ID <embeddings>
+```
+<br />
+The Original source code can be found at [deepwalk](https://github.com/phanein/deepwalk) library.
+
+Example commend lines to create environment
+```shell
+conda create py37 python==3.7
+conda activate py37
+cd <path to work space>
+cd deepwalk
+pip install -r requirements.txt
+python setup.py install
+```
+
+Example commend line to run DeepWalk
+```shell
+deepwalk --input Data/edgelist/"$cell".edgelist --output Results/embeddings/DeepWalk_64d/"$cell"_features.emb --representation-size 64 --format edgelist
+```
+Command line arguments \
+`--input`: the input path \
+`--output`: the path where output files will be saved \
+`--representation-size`: embedding dimension (default == 64) \
+`--format`: adjacency matrix or edgelist
+
+### Ohmnet
+*Inputs*: 
+
+The `tissue.list` file contains absolute paths to all cell line networks in each line.
+The `tissue.hierarchy` file includes the tree structure hiearchy structure with all network file names stored at leaf nodes. 
+Here is an overview of the hierarchy tree 
+![tree](\Data\Roadmap_Networks\tree.png)
+
+*Outputs*: 
+
+The output file `leaf_vectors.emb` contains embeddings for nodes at the level of leaves in the hierarchy (we care more about this because it contains embbedings for our biological networks. \
+The output file `internal_vectors.emb` contains embeddings for nodes at higher levels in the hierarchy.
+<br />
+These files contain n + 1 lines where the first line has the format
+```shell
+number_of_nodes_in_layers embedding_dimension
+```
+and the following lines contains node embeddings with the start of node IDs
+```shell
+node_ID <embeddings>
+```
+<br />
+The Original source code can be found at [ohmnet](https://github.com/mims-harvard/ohmnet) library.
+
+Example commend lines to create environment
+```shell
+conda create py37 python==3.7
+conda actvate py37
+python ./Scripts/ohmnet/main.py --input "Data/ohmnet_structure/tissue.list" --outdir "Results/embeddings/Ohmnet_128d/" --hierarchy "Data/ohmnet_structure/tissue.hierarchy" --unweighted --dimension 128
+```
+Command line arguments \
+`--input`: the input path to the list of networks \
+`--outdir`: the folder where output files will be saved \
+`--hierarchy`: the input path to the hierarchy of all networks
+`--dimension`: embedding dimension (default == 128) \
+`--weighted`: We have to special that networks are unweighted
+
+
 
 
