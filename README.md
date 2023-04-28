@@ -27,10 +27,6 @@ After we retrieve the node cluster labels through applying K-Means clustering on
     This file is used by labels learned from the DeepWalk algorithm. It utilizes the filtered unweighted undirected graphs.
 - `IDTONAME_OHMNET.py` \
     This file is used by labels learned from the Ohmnet algorithm. Since we need to align nodes with same literal IDs across mutliple graphs, we iterate through all nodes in all networks and assign each unique node a novel numerial ID. After we get the cluster labels, we have to match those with correct node literal IDs.
-    
-## Ohmnet specific scripts 
-- `Ohmnet_Extract.py` \
-    This python script reads all the weighted graphs in edgelist format, extracts unique nodes across all network layers and assigns a new numerical ID to each node. The corresponding edgelist and node ID list are stored in the same folder. 
 
 # Running different node embedding algorithms
 Below, we describe usage scripts on RoadMap project cell lines which can be found in [here](RoadMap_Networks/Data/RoadMap_Networks)
@@ -38,7 +34,8 @@ Below, we describe usage scripts on RoadMap project cell lines which can be foun
 * [Spectral Clustering](#Spectral_Clustering)
 * [node2vec](#node2vec)
 * [DeepWalk](#deepwalk)
-* [Ohmnet](#ohmnet)
+* [GraphSAGE](#GraphSAGE)
+* [VGAE]{#VGAE}
 
 ### Spectral Clustering
 *Inputs*: 
@@ -137,42 +134,35 @@ Command line arguments \
 `--representation-size`: embedding dimension (default == 64) \
 `--format`: adjacency matrix or edgelist
 
-### Ohmnet
-*Inputs*: 
+### Graphsage
+*Inputs*
 
-The `tissue.list` file contains absolute paths to all cell line networks in each line.
-The `tissue.hierarchy` file includes the tree structure hierarchy structure with all network file names stored at leaf nodes. 
-Here is an overview of the hierarchy tree 
-![tree](RoadMap_Networks/Data/Roadmap_Networks/tree.png)
+The edgelist format graphs with numerical node IDs. The graph should be unweighted. 
+```shell
+node1_id_int node2_id_int
 
 *Outputs*: 
 
-The output file `leaf_vectors.emb` contains embeddings for nodes at the level of leaves in the hierarchy (we care more about this because it contains embeddings for our biological networks. \
-The output file `internal_vectors.emb` contains embeddings for nodes at higher levels in the hierarchy.
-<br />
-These files contain n + 1 lines where the first line has the format
-```shell
-number_of_nodes_in_layers embedding_dimension
-```
-and the following lines contain node embeddings with the start of node IDs
+.emb file containing n lines of node embeddings with the start of node IDs
 ```shell
 node_ID <embeddings>
 ```
 <br />
-The original source code can be found at [ohmnet](https://github.com/mims-harvard/ohmnet) library.
+The original source code can be found at [GraphSage](https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.nn.models.GraphSAGE.html) library.
 
-Example commend lines to create environment
+### VGAE
+*Inputs*
+
+The adjacency matrix format graphs. The graph should be unweighted. 
+
+*Outputs*: 
+
+.emb file containing n lines of node embeddings with the start of node IDs
 ```shell
-conda create py37 python==3.7
-conda actvate py37
-python ./Scripts/ohmnet/main.py --input "Data/ohmnet_structure/tissue.list" --outdir "Results/embeddings/Ohmnet_128d/" --hierarchy "Data/ohmnet_structure/tissue.hierarchy" --unweighted --dimension 128
+node_ID <embeddings>
 ```
-Command line arguments \
-`--input`: the input path to the list of networks \
-`--outdir`: the folder where output files will be saved \
-`--hierarchy`: the input path to the hierarchy of all networks
-`--dimension`: embedding dimension (default == 128) \
-`--weighted`: We have to special that networks are unweighted
+<br />
+The original source code can be found at [VGAE](https://github.com/tkipf/gae) library.
 
 # Synthetic Benchmark Graphs
 We generate 40 networks stimulating real-world networks and apply various node embedding and node classification techniques to them. We follow the procedure described in [Benchmark graphs for testing community detection algorithms](https://arxiv.org/abs/0805.4770) with different choices of hyperparameters. 
