@@ -137,7 +137,7 @@ Command line arguments \
 ### Graphsage
 *Inputs*
 
-The edgelist format graphs with numerical node IDs. The graph should be unweighted. 
+The edgelist format graphs with numerical node IDs. The graph should be unweighted.
 ```shell
 node1_id_int node2_id_int
 
@@ -149,6 +149,30 @@ node_ID <embeddings>
 ```
 <br />
 The original source code can be found at [GraphSage](https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.nn.models.GraphSAGE.html) library.
+
+Example command line to create the environment
+```shell
+conda create pygeo python==3.7
+conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
+conda install pyg -c pyg
+conda activate pygeo
+```
+
+Example commend line to run Graphsage
+```shell
+cd <path to work space>
+cd GraphSage_Scripts
+conda activate pygeo
+python Graphsage.py
+```
+Hyperparameters in the Graphsage Script \
+`-batch_size (line 84)`: The batch size used to generate positive and negative samples \
+`-hidden_channels (line 116)`: The number of preceptions in each hidden layer \
+`-num_layers (line 116)`: number of hidden layer \
+`-step_size lr (line 119)`: step size in gradient descent \
+`-epoch (line 143)`: number of iterations in gradient descent step (default setting is 50)
+
+Note: The Graphsage.py script is written for generating embeddings on 55 cell-type specific networks. You have modified the input path and output path in the Python script to retrieve the desired network datasets.
 
 ### VGAE
 *Inputs*
@@ -163,6 +187,8 @@ node_ID <embeddings>
 ```
 <br />
 The original source code can be found at [VGAE](https://github.com/tkipf/gae) library.
+
+
 
 # Synthetic Benchmark Graphs
 We generate 40 networks stimulating real-world networks and apply various node embedding and node classification techniques to them. We follow the procedure described in [Benchmark graphs for testing community detection algorithms](https://arxiv.org/abs/0805.4770) with different choices of hyperparameters. 
