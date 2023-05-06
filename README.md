@@ -35,7 +35,7 @@ Below, we describe usage scripts on RoadMap project cell lines which can be foun
 * [node2vec](#node2vec)
 * [DeepWalk](#deepwalk)
 * [GraphSAGE](#GraphSAGE)
-* [VGAE]{#VGAE}
+* [VGAE](#VGAE)
 
 ### Spectral Clustering
 *Inputs*: 
