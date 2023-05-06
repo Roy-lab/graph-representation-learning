@@ -158,12 +158,12 @@ conda install pyg -c pyg
 conda activate pygeo
 ```
 
-Example commend line to run Graphsage
+Example commend line to run Graphsage on Cell-Type Specific Networks
 ```shell
 cd <path to work space>
-cd GraphSage_Scripts
+cd Cell_Type_Specific_Networks/Scripts
 conda activate pygeo
-python Graphsage.py
+python SAGE_PyTorch_Org.py
 ```
 Hyperparameters in the Graphsage Script \
 `-batch_size (line 84)`: The batch size used to generate positive and negative samples \
@@ -172,7 +172,7 @@ Hyperparameters in the Graphsage Script \
 `-step_size lr (line 119)`: step size in gradient descent \
 `-epoch (line 143)`: number of iterations in gradient descent step (default setting is 50)
 
-Note: The Graphsage.py script is written for generating embeddings on 55 cell-type specific networks. You have to modify the input path and output path in the Python script to retrieve the desired network datasets and store the embedding files at the right place.
+Note: The SAGE_PyTorch_Org.py script is written for generating embeddings on 55 cell-type specific networks. You have to modify the input path and output path in the Python script to retrieve the desired network datasets and store the embedding files at the right place.
 
 ### VGAE
 *Inputs*
@@ -194,11 +194,11 @@ conda create -n tf-gpu tensorflow-gpu
 conda activate tf-gpu
 ```
 
-Example commend line to run VGAE
+Example commend line to run VGAE on Cell-Type Specific Networks
 ```shell
 conda activate tf-gpu
 cd <path to work space>
-cd gae/gae
+cd Cell_Type_Specific_Networks/Scripts/gae/gae
 python train.py --model 'gcn_vae' --feature 0 --hidden1 64 --hidden2 64
 ```
 Hyperparameters in the VGAE Script \
