@@ -172,7 +172,7 @@ Hyperparameters in the Graphsage Script \
 `-step_size lr (line 119)`: step size in gradient descent \
 `-epoch (line 143)`: number of iterations in gradient descent step (default setting is 50)
 
-Note: The Graphsage.py script is written for generating embeddings on 55 cell-type specific networks. You have modified the input path and output path in the Python script to retrieve the desired network datasets.
+Note: The Graphsage.py script is written for generating embeddings on 55 cell-type specific networks. You have to modify the input path and output path in the Python script to retrieve the desired network datasets.
 
 ### VGAE
 *Inputs*
@@ -188,7 +188,28 @@ node_ID <embeddings>
 <br />
 The original source code can be found at [VGAE](https://github.com/tkipf/gae) library.
 
+Example command line to create the environment
+```shell
+conda create -n tf-gpu tensorflow-gpu
+conda activate tf-gpu
+```
 
+Example commend line to run VGAE
+```shell
+conda activate tf-gpu
+cd <path to work space>
+cd gae/gae
+python train.py --model 'gcn_vae' --feature 0 --hidden1 64 --hidden2 64
+```
+Hyperparameters in the VGAE Script \
+`--learning_rate`: Initial learning rate (default: 0.01) \
+`--epochs`: Number of epochs to train (default: 200) \
+`--hidden1`: Number of units in hidden layer 1 (default: 32) \
+`--hidden2`: Number of units in hidden layer 2 (default: 16) \
+`--model`: Model string (either 'gcn_vae' for VGAE or 'gcn_vae' for GAE) \
+`--features`: Whether to use features (1) or not (0) (default: 1)
+
+Note: The train.py script under each dataset is written for generating embeddings that specific networks. You have to modify the input path and output path in the train.py script to retrieve the desired network datasets.
 
 # Synthetic Benchmark Graphs
 We generate 40 networks stimulating real-world networks and apply various node embedding and node classification techniques to them. We follow the procedure described in [Benchmark graphs for testing community detection algorithms](https://arxiv.org/abs/0805.4770) with different choices of hyperparameters. 
