@@ -5,7 +5,9 @@ Comparison of various node embedding algorithms on node classification downstrea
 We benchmarked three different node embedding algorithms and spectral clustering methods on (diffused/undiffused) RoadMap project 55 cell lines and on synthetic benchmark graphs. The following are data pipelines for pre-processing and post-processing. Diffused networks are based on the Hi-C genomic analysis technique to learn the score for each protein and transfer them to edge weights. 
 
 ## Pre-processing graph data
-Below, we describe the usage of each script to the generate corresponding adjacency matrix, edge list, node IDs/names, etc.
+Below, we describe the usage of each script to the generate corresponding adjacency matrix, edge list, node IDs/names, etc. 
+
+For biological networks, the following script can be found in `./Scripts/Biological_Networks/`
 
 - `Adj_Matrix_Noweight.py` \
     This file takes a filtered non-weighted graph in edgelist format and transforms it into an adjacency matrix format. The Output file can be used by the spectral clustering algorithm. 
@@ -14,19 +16,28 @@ Below, we describe the usage of each script to the generate corresponding adjace
 - `Get_Avg_Node_Degree.py` \
     This file takes an edgelist format graph as input and computes the average and standard deviation of node degree in the graph. The result can be an indicator to the hyperparameters when constructing synthetic benchmark graphs. 
 - `Get_Edgelist.py`, `Get_EdgeList_No_Weight.py` \
-    These files take an adjacency matrix as input, extracting edges and/or edge weights and store the graph in edgelist format. 
+    These files take an adjacency matrix as input, extracting edges and/or edge weights and storing the graph in edgelist format. 
 - `Get_Large_Conn.m` \
-    This MATLAB script takes a graph in edgelist format and computes the largest connected component in the graph. If there is only one connected component, then the output is identical to the input. This script is used mainly on the filtered unweighted graph, where some graph segments might become isolated during filtering. 
+    This MATLAB script takes a graph in edgelist format and computes the largest connected component in the graph. If there is only one connected component, then the output is identical to the input. This script is used mainly on the filtered unweighted graph, where some graph segments might become isolated during filtering.
+
+For simulated networks, the following script can be found in `./Scripts/Simulated_Networks/`
+
+- `Adj_Matrix_Generate.m` \
+    This file takes a filtered weighted graph in edgelist format and transforms it into an adjacency matrix format. The Output file can be used by the spectral clustering algorithm.
+- `Adj_Matrix_Noweight.m` \
+    This file takes a filtered non-weighted graph in edgelist format and transforms it into an adjacency matrix format.
+- `Edgelist_Names.py` \
+    These files match the numerical node IDs to literal IDs in edgelist format. Output files can be used in Silhouette and Modularity Index Scripts when the algorithms need to match the node cluster labels to corresponding node IDs.
+- `Get_EdgeList_No_Weight.m` \
+    This file takes an adjacency matrix as input, extracting edges and/or edge weights and storing the graph in edgelist format.
 
 ## Postprocessing cluster labels
-After we retrieve the node cluster labels through applying K-Means clustering on node embeddings, we need to match the labels with the correct nodes
+After we retrieve the node cluster labels through applying K-Means clustering on node embeddings, we need to match the labels with the correct nodes. These files can be found in `./Scripts/Biological_Networks/` and `./Scripts/Simulated_Networks/`
 
 - `IDTONAME.py` \
     This file is used by labels learned from spectral clustering and node2vec algorithms. They both use weighted undirected graphs.
 - `IDTONAME_DEEP.py` \
     This file is used by labels learned from the DeepWalk algorithm. It utilizes the filtered unweighted undirected graphs.
-- `IDTONAME_OHMNET.py` \
-    This file is used by labels learned from the Ohmnet algorithm. Since we need to align nodes with same literal IDs across mutliple graphs, we iterate through all nodes in all networks and assign each unique node a novel numerial ID. After we get the cluster labels, we have to match those with correct node literal IDs.
 
 # Running different node embedding algorithms
 Below, we describe usage scripts on RoadMap project cell lines which can be found in [here](RoadMap_Networks/Data/RoadMap_Networks)
@@ -161,9 +172,9 @@ conda activate pygeo
 Example commend line to run Graphsage on Cell-Type Specific Networks
 ```shell
 cd <path to work space>
-cd Cell_Type_Specific_Networks/Scripts
+cd Scripts/Biological_Networks
 conda activate pygeo
-python SAGE_PyTorch_Org.py
+python GraphSage_Cell_Type.py
 ```
 Hyperparameters in the Graphsage Script \
 `-batch_size (line 84)`: The batch size used to generate positive and negative samples \
@@ -172,7 +183,7 @@ Hyperparameters in the Graphsage Script \
 `-step_size lr (line 119)`: step size in gradient descent \
 `-epoch (line 143)`: number of iterations in gradient descent step (default setting is 50)
 
-Note: The SAGE_PyTorch_Org.py script is written for generating embeddings on 55 cell-type specific networks. You have to modify the input path and output path in the Python script to retrieve the desired network datasets and store the embedding files at the right place.
+Note: The GraphSage_Cell_Type.py script is written for generating embeddings on 55 cell-type specific networks. You have to modify the input path and output path in the Python script to retrieve the desired network datasets and store the embedding files at the right place.
 
 ### VGAE
 *Inputs*
@@ -198,7 +209,7 @@ Example commend line to run VGAE on Cell-Type Specific Networks
 ```shell
 conda activate tf-gpu
 cd <path to work space>
-cd Cell_Type_Specific_Networks/Scripts/gae/gae
+cd Scripts/Biological_Networks/gae/gae
 python train.py --model 'gcn_vae' --feature 0 --hidden1 64 --hidden2 64
 ```
 Hyperparameters in the VGAE Script \
@@ -259,7 +270,7 @@ I used the package 2 to generate undirected weighted graphs
 After we get the node embeddings from each algorithm, we need to perform node classification based on the embeddings in the latent space. We choose to use K-Means clustering is the most common and popular one in the unsupervised learning field. 
 
 ## Scripts and usage
-`kmeansCluster.m`: It takes the embedding file as input and sorts the embedding based on node IDs ascending. Then it performs K-Means clustering on the embedding space and output cluster labels
+`./Biological_Networks/kmeansCluster.m`: It takes the embedding file as input and sorts the embedding based on node IDs ascending. Then it performs K-Means clustering on the embedding space and output cluster labels
 
 ```shell
 sed -i '1d' network_1_features.emb
@@ -275,8 +286,8 @@ number_of_nodes embedding_dimension
 we compare and evaluate the performance of the node embedding learning algorithm based on the modularity index and the silhouette index. Both metrics are widely used to measure the strength of graph node segmentation and their maximation refers to the identification of node clusters with strong interconnections among nodes in their clusters.
 
 ## Modularity Metric
-`\Scripts\Modularity\modularity.R`: calculate the modularity score for weighted graphs
-`\Scripts\Modularity\modularity_no_weight.R`: calculate the modularity score for unweighted graphs
+`/Scripts/Biological_Networks/Modularity/modularity.R`: calculate the modularity score for weighted graphs
+`/Scripts/Biological_Networks/Modularity/modularity_no_weight.R`: calculate the modularity score for unweighted graphs
 
 *Usage*:
 ```shell
@@ -285,16 +296,59 @@ conda activate r_env
 Rscript Scripts/modularity.R node2vec_64d
 ```
 
-### Silhouette Metric
-`\Scripts\SilhouetteIndex\calcA.m`: Calculate the distance matrix for each node based on the average edge weights connected to it
-`\Scripts\SilhouetteIndex\getSil.m`: Retrieve the Silhouette score for each node in the graph
-`\Scripts\SilhouetteIndex\runSil.m`: Align the node cluster labels to unique nodes and calculate the silhouette score of the whole graph
+## Silhouette Metric
+`/Scripts/Biological_Networks/SilhouetteIndex/calcA.m`: Calculate the distance matrix for each node based on the average edge weights connected to it
+`/Scripts/Biological_Networks/SilhouetteIndex/getSil.m`: Retrieve the Silhouette score for each node in the graph
+`/Scripts/Biological_Networks/SilhouetteIndex/runSil.m`: Align the node cluster labels to unique nodes and calculate the silhouette score of the whole graph
 
 *Usage*:
 ```shell
-cd <path to adjacency matrix>
+cd /Scripts/Biological_Networks/SilhouetteIndex/
 matlab -nodesktop -nodisplay
 >> addpath('<path to Silhouette folder>');
 >> runSil('node2vec_64d');
 ```
+
+## AMI Metric
+`/Scripts/Simulated_Networks/AMI.py`: Calculate the AMI score for node clusters on simulated networks
+
+*Usage*:
+```shell
+cd /Scripts/Simulated_Networks
+python AMI.py
+```
+
+# Algorithm Comparison Results
+- `\Results\Metric_Results` \
+    This folder contains Excel sheets containing modularity, silhouette, and AMI results
+- `\Results\Parameter_Choices` \
+    This folder contains tables documenting the optimal k value for each dataset
+- `\Results\Algo_Compare_Plots` \
+    This folder contains plots for results of different algorithms on five individual cell lines
+
+# t-SNE Plots
+We generated t-SNE of node embeddings for biological networks with k = 50 for cell-type specific networks and k = 10 for phenotype-specific networks. The selected cell lines are heart and fetal lung. 
+
+## Scripts
+Scripts can be found at `/Scripts/Tsne.py`
+
+Example commend line to run Tsne.py
+```shell
+cd <path to work space>
+cd Scripts/Biological_Networks
+python Tsne.py
+```
+
+## Results
+Results can be found at `/tSNE_Visualization/`
+
+# GO Enrichment Plots
+We generate GO Enrichment Plots to extract biological significance of cluster results from real biological networks.
+
+## Scripts
+Scripts can be found at `/Scripts/GO_Enrichment_Plots`
+Follow readme.txt to execute the scripts
+
+## Results
+Results can be found at `Results/GO_Enrichment_Plots`
 
