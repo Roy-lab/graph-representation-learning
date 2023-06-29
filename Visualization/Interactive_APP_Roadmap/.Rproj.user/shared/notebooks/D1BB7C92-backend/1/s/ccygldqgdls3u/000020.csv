@@ -1,8 +1,0 @@
-"0","dfm_1 <- melt(cd19[,c('cluster_num','node2vec_128d_p1_q1','node2vec_128d_p1_q0.5','node2vec_128d_p1_q2')],id.vars = 1)"
-"0","ggplot(dfm_1, aes(x=cluster_num, y = value)) + "
-"0","  geom_line(aes(color = variable, linetype = variable)) +"
-"0","  scale_color_manual(values = c(""darkred"", ""steelblue"", ""darkgreen"")) +"
-"0","  scale_linetype_manual(values=c(""solid"", ""solid"", ""solid"")) +"
-"0","  labs(y= ""Modularity Value"", x= ""# of Clusters"") +"
-"0","  scale_x_continuous(breaks=seq(0, 100, 10)) +"
-"0","  ggtitle(""cd19"")"
