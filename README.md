@@ -241,7 +241,7 @@ I used the package 2 to generate undirected weighted graphs
 `smin` : the minimal community size\
 `smax` : the maximal community size
 
-## Experience choice:
+## Parameter choice:
 - N is set to 1000 as the original RoadMap graphs have approximately 1000 nodes in all 55 cell lines
 
 - t1 is set to 2 and t2 is set to 1. In the LFR paper, the common range for t1 is [2, 3] and for t2 is [1, 2]
