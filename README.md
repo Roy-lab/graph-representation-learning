@@ -322,7 +322,9 @@ python AMI.py
 See `/Reuslts/README.md` for details on plots and metric results.
 
 # t-SNE Plots
-We generated t-SNE of node embeddings for biological networks with k = 50 for cell-type specific networks and k = 10 for phenotype-specific networks. The selected cell lines are the heart and fetal lung. For k = 50, we order the cluster by their sizes in descending order and visualize only the top 10 clusters. The heart cell line plots correspond to Figures 3 - 5 and the fetal lung cell line plots correspond to Supplementary Figure 9.
+We generated t-SNE of node embeddings for biological networks with k = 50 for cell-type specific networks and k = 10 for phenotype-specific networks. The selected cell lines are the heart and fetal lung. For k = 50, we order the cluster by their sizes in descending order and visualize only the top 10 clusters. 
+
+The heart cell line plots correspond to Figures 3 - 5 and the fetal lung cell line plots correspond to Supplementary Figure 9.
 
 ## Scripts
 Scripts can be found at `/Scripts/Tsne.py`
