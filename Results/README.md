@@ -1,4 +1,4 @@
-# Graph Representation Learning
+# Results
 
 ## `./Algo_Compare_Plots`
 
