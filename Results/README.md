@@ -94,6 +94,8 @@ For detailed instructions, see `Scripts/GO_Enrichment_Plots\README.txt`
 
   AMI Scores on different networks with five shallow and deep learning algorithms
 
+See `/README.md` for desired scripts to generate metric scores.
+
 ## `./Parameter_Choice`
 
 The optimal k value for each method within all 55 cell lines in three biological Networks based on modularity and silhouette scores. The last column mode is the mode value of optimal k value across all methods for a given cell line network. The value 0 refers to the non-existence of mode
