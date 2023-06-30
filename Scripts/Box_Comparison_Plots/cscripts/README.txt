@@ -4,4 +4,4 @@ Usage:
 ./convert <input_file> <output_file>
 
 Example:
-./convert ../zhiwei_results/modularity.txt ../zhiwei_results/modularity_out.txt
+./convert ../input_tables/asd_modularity.txt ../input_tables/asd_modularity_out.txt
