@@ -318,37 +318,18 @@ cd /Scripts/Simulated_Networks
 python AMI.py
 ```
 
-# Algorithm Comparison Results
-- `\Results\Metric_Results` \
-    This folder contains Excel sheets containing modularity, silhouette, and AMI results
-- `\Results\Parameter_Choices` \
-    This folder contains tables documenting the optimal k value for each dataset
-- `\Results\Algo_Compare_Plots` \
-    This folder contains plots for results of different algorithms on five individual cell lines
+# Results
+See `/Reuslts/README.md` for details on plots and metric results.
 
 # t-SNE Plots
-We generated t-SNE of node embeddings for biological networks with k = 50 for cell-type specific networks and k = 10 for phenotype-specific networks. The selected cell lines are heart and fetal lung. 
+We generated t-SNE of node embeddings for biological networks with k = 50 for cell-type specific networks and k = 10 for phenotype-specific networks. The selected cell lines are the heart and fetal lung. For k = 50, we order the cluster by their sizes in descending order and visualize only the top 10 clusters. The heart cell line plots correspond to Figures 3 - 5 and the fetal lung cell line plots correspond to Supplementary Figure 9.
 
 ## Scripts
 Scripts can be found at `/Scripts/Tsne.py`
 
-Example commend line to run Tsne.py
+Example command line to run Tsne.py
 ```shell
 cd <path to work space>
 cd Scripts/Biological_Networks
 python Tsne.py
 ```
-
-## Results
-Results can be found at `/tSNE_Visualization/`
-
-# GO Enrichment Plots
-We generate GO Enrichment Plots to extract biological significance of cluster results from real biological networks.
-
-## Scripts
-Scripts can be found at `/Scripts/GO_Enrichment_Plots`
-Follow readme.txt to execute the scripts
-
-## Results
-Results can be found at `Results/GO_Enrichment_Plots`
-
