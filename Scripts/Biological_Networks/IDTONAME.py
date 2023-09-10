@@ -5,10 +5,10 @@ for i in  ['10','20','30','40','50','60','70','80','90','100']:
     label = None
     result = ""
 
-    with open('/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/RoadMap_Networks/Data/Roadmap_Networks//adj_matrix//breast_variant_human_mammary_epithelial_cells_vhmec_nodeNames.txt') as f:
+    with open('Data/Roadmap_Networks//adj_matrix//breast_variant_human_mammary_epithelial_cells_vhmec_nodeNames.txt') as f:
         lines = f.readlines()
 
-    with open('/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/RoadMap_Networks/Results//node_feature_kmeans//graphsage_64d//breast_variant_human_mammary_epithelial_cells_vhmec//' + str(i) + '_cluster_kmeans.txt') as f2:
+    with open('Results//node_feature_kmeans//graphsage_64d//breast_variant_human_mammary_epithelial_cells_vhmec//' + str(i) + '_cluster_kmeans.txt') as f2:
         label = f2.readline()
 
     label = label.split(',')
@@ -24,7 +24,7 @@ for i in  ['10','20','30','40','50','60','70','80','90','100']:
 
         counter += 1
 
-    f3 = open("/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/RoadMap_Networks/Results//node_feature_kmeans//graphsage_64d//breast_variant_human_mammary_epithelial_cells_vhmec//" + str(i) + "_cluster_kmeans_names.txt", "w")
+    f3 = open("Results//node_feature_kmeans//graphsage_64d//breast_variant_human_mammary_epithelial_cells_vhmec//" + str(i) + "_cluster_kmeans_names.txt", "w")
 
     f3.write(result)
 
