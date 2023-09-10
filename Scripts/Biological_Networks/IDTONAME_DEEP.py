@@ -11,13 +11,13 @@ for i in  ['10','20','30','40','50','60','70','80','90','100']:
     ID_list = []
     result = ""
 
-    with open('C:\Zhiwei_Song\Wisconsin\Roy_Lab\Zhiwei_Work\RoadMap_Networks\Data\Roadmap_Networks\\adj_matrix\\' + cells + '_nodeNames.txt') as f:
+    with open('Data\Roadmap_Networks\\adj_matrix\\' + cells + '_nodeNames.txt') as f:
         lines = f.readlines()
 
-    with open('C:\Zhiwei_Song\Wisconsin\Roy_Lab\Zhiwei_Work\RoadMap_Networks\Results\\node_feature_kmeans\\DeepWalk_64d\\' + cells + '\\' + str(i) + '_cluster_kmeans.txt') as f2:
+    with open('Results\\node_feature_kmeans\\DeepWalk_64d\\' + cells + '\\' + str(i) + '_cluster_kmeans.txt') as f2:
         label = f2.readline()
 
-    with open('C:\Zhiwei_Song\Wisconsin\Roy_Lab\Zhiwei_Work\RoadMap_Networks\Results\embeddings\DeepWalk_64d\\' + cells + '_features.emb') as f3:
+    with open('Results\embeddings\DeepWalk_64d\\' + cells + '_features.emb') as f3:
         IDs = f3.readlines()
 
     for ID in IDs:
@@ -38,7 +38,7 @@ for i in  ['10','20','30','40','50','60','70','80','90','100']:
         newname = lines_name[int(ID_list[k])].split("\n")[0]
         result += newname + "\t" + label[k] + "\n"
     
-    f4 = open("C:\Zhiwei_Song\Wisconsin\Roy_Lab\Zhiwei_Work\RoadMap_Networks\Results\\node_feature_kmeans\\DeepWalk_64d\\" + cells + "\\" + str(i) + "_cluster_kmeans_names.txt", "w")
+    f4 = open("Results\\node_feature_kmeans\\DeepWalk_64d\\" + cells + "\\" + str(i) + "_cluster_kmeans_names.txt", "w")
 
     f4.write(result)
 
