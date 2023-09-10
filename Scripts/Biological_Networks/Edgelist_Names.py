@@ -6,10 +6,10 @@ lines = []
 Names = []
 result = ""
 
-with open('C:\Zhiwei_Song\Wisconsin\Roy_Lab\Zhiwei_Work\RoadMap_Networks\Data\RoadMap_Networks\edgelist\\' + cells + '.edgelist') as f:
+with open('Data\RoadMap_Networks\edgelist\\' + cells + '.edgelist') as f:
     lines = f.readlines()
 
-with open('C:\Zhiwei_Song\Wisconsin\Roy_Lab\Zhiwei_Work\RoadMap_Networks\Data\Roadmap_Networks\\adj_matrix\\' + cells + '_nodeNames.txt') as f2:
+with open('Data\Roadmap_Networks\\adj_matrix\\' + cells + '_nodeNames.txt') as f2:
     Names = f2.readlines()
 
 for line in lines:
@@ -21,7 +21,7 @@ for line in lines:
 
     result += first_Name + "\t" + second_Name + "\t" + line.split(" ")[2]
 
-f1 = open("C:\Zhiwei_Song\Wisconsin\Roy_Lab\Zhiwei_Work\RoadMap_Networks\Data\RoadMap_Networks\edgelist\edgelist_names\\" + cells + ".txt", "w")
+f1 = open("Data\RoadMap_Networks\edgelist\edgelist_names\\" + cells + ".txt", "w")
 
 f1.write(result)
 
