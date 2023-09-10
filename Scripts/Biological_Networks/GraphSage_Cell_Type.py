@@ -41,11 +41,11 @@ def load_edge_csv_noweight(path, x_mapping, **kwargs):
 
 
 
-node_x, node_mapping = load_node_csv("/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/Multi_Species_Chromatin_State_Annotation/Data/Orthology_Subgraphs_10k/SubGraph_5000bp.txt", index_col='source')
+node_x, node_mapping = load_node_csv("RoadMap_Networks_Org/Data/edgelist/cd19.edgelist", index_col='source')
 data = Data()
 data.x = node_x
 print(data)
-edge_index = load_edge_csv_noweight("/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/Multi_Species_Chromatin_State_Annotation/Data/Orthology_Subgraphs_10k/SubGraph_5000bp.txt", x_mapping = node_mapping)
+edge_index = load_edge_csv_noweight("RoadMap_Networks_Org/Data/edgelist/cd19.edgelist", x_mapping = node_mapping)
 print(edge_index)
 data.edge_index = edge_index
 print(data)
@@ -136,7 +136,7 @@ with torch.no_grad():
     out = model.full_forward(x, edge_index).cpu()
 
 ids = list(node_mapping.values())
-with open("/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/Multi_Species_Chromatin_State_Annotation/Results/embeddings/Orthology_Subgraph/graphsage_64d/orthology_graph.emb", "w") as f:
+with open("Results/embeddings/graphsage_64d/cd19_features.emb", "w") as f:
     for each_id, row in zip(ids, out):
         line = "%d " %each_id + " ".join(format(x, "0.6f") for x in row) + "\n"
         f.write(line)
