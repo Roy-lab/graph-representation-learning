@@ -15,7 +15,7 @@ function GET_LARGE_COM()
     for i = 1:length(cells)
         cell = cells{i};
         disp(cell);
-        adj_matrix = readmatrix(sprintf('/mnt//dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/RoadMap_Networks/Data//Roadmap_Networks/adj_matrix/%s.txt', cell));
+        adj_matrix = readmatrix(sprintf('Data//Roadmap_Networks/adj_matrix/%s.txt', cell));
         G = graph(adj_matrix,'upper');
         bins = conncomp(G);
         mode_bins = mode(bins);
@@ -24,13 +24,13 @@ function GET_LARGE_COM()
         disp(size(adj_matrix));
         adj_matrix = adj_matrix(index, index);
         disp(size(adj_matrix));
-        dlmwrite(sprintf('/mnt//dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/RoadMap_Networks/Data//Roadmap_Networks/adj_matrix_cc/%s.txt', cell),adj_matrix, 'delimiter','\t');
+        dlmwrite(sprintf('Data//Roadmap_Networks/adj_matrix_cc/%s.txt', cell),adj_matrix, 'delimiter','\t');
         
-        nodename = readtable(sprintf('/mnt//dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/RoadMap_Networks/Data//Roadmap_Networks/adj_matrix/%s_nodeNames.txt', cell));
+        nodename = readtable(sprintf('Data//Roadmap_Networks/adj_matrix/%s_nodeNames.txt', cell));
         disp(size(nodename));
         nodename = nodename(index,:);
         disp(size(nodename));
-        writetable(nodename, sprintf('/mnt//dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/RoadMap_Networks/Data//Roadmap_Networks/adj_matrix_cc/%s_nodeNames.txt', cell), 'Delimiter','\t', 'WriteVariableNames',0);
+        writetable(nodename, sprintf('Data//Roadmap_Networks/adj_matrix_cc/%s_nodeNames.txt', cell), 'Delimiter','\t', 'WriteVariableNames',0);
     end
 
 end
