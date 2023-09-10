@@ -16,7 +16,7 @@ cells = ['breast_variant_human_mammary_epithelial_cells_vhmec', 'cd19', 'cd34_pr
 for cell in cells:
     print(cell)
     node_occ = []
-    with open('/mnt/dv/wid/projects3/Roy-enhancer-promoter/RMEC/Graph_Diffusion/Scripts/ArboretumHiC/Muscari_Version/muscari/regular_graphs/Autismspectrumdisorderorschizophrenia/subnetwork_' + cell + '.txt') as f:
+    with open(Data\RoadMap_Networks\edgelist\\' + cells + '.edgelist') as f:
         lines = f.readlines()
         
     for line in lines:
