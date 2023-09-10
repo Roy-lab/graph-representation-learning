@@ -44,11 +44,11 @@ import matplotlib.pyplot as plt
 for mux in [0.5]:
     for k in [100]:
         for s in [1]:
-            data = pd.read_csv("/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/RoadMap_Networks_Org/Data/edgelist/cd19.edgelist", delimiter = "\t", header = None)
+            data = pd.read_csv("RoadMap_Networks_CAD/Data/edgelist/cd19.edgelist", delimiter = "\t", header = None)
             data.columns = ['source', 'target']
             #print(data)
 
-            nodeid = pd.read_csv("/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/RoadMap_Networks_Org/Data/adj_matrix/cd19_nodeNames.txt", delimiter = "\t", header = None)
+            nodeid = pd.read_csv("RoadMap_Networks_CAD/Data/adj_matrix/cd19_nodeNames.txt", delimiter = "\t", header = None)
             nodeid.columns = ['org_ID', "name"]
             nodeid.insert(0, "ID", range(len(nodeid)))
             #print(nodeid)
@@ -113,7 +113,7 @@ for mux in [0.5]:
             node_embeddings = embedding_model.predict(node_gen, workers=4, verbose=1)
 
             ids = list(range(0,G.number_of_nodes()))
-            with open("/mnt/dv/wid/projects3/Roy-enhancer-promoter/Zhiwei_Work/RoadMap_Networks_Org/Results/embeddings/graphsage_64d_stellargraph/cd19_features.emb", "w") as f:
+            with open("RoadMap_Networks_CAD/Results/embeddings/graphsage_64d_stellargraph/cd19_features.emb", "w") as f:
                 for each_id, row in zip(ids, node_embeddings):
                     line = "%d " %each_id + " ".join(format(x, "0.6f") for x in row) + "\n"
                     f.write(line)
