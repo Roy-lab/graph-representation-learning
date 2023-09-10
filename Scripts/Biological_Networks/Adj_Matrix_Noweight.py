@@ -7,7 +7,7 @@ result = ""
 
 index_list = []
 
-with open('C:\Zhiwei_Song\Wisconsin\Roy_Lab\Zhiwei_Work\RoadMap_Networks\Data\RoadMap_Networks\edgelist\\' + cells + '_no_weight.edgelist') as f:
+with open('Data\RoadMap_Networks\edgelist\\' + cells + '_no_weight.edgelist') as f:
     lines = f.readlines()
 
 adj_matrix = [[str(0) for _ in range(1490)] for i in range(1490)]
@@ -48,7 +48,7 @@ print(len(adj_matrix))
 for line1 in adj_matrix:
     result += " ".join(line1) + "\n"
 
-f1 = open("C:\Zhiwei_Song\Wisconsin\Roy_Lab\Zhiwei_Work\RoadMap_Networks\Data\RoadMap_Networks\\adj_matrix_no_weight\\" + cells + "_no_weight.txt", "w")
+f1 = open("Data\RoadMap_Networks\\adj_matrix_no_weight\\" + cells + "_no_weight.txt", "w")
 
 f1.write(result)
 
