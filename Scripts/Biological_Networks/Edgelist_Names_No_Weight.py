@@ -8,10 +8,10 @@ result = ""
 nodenames = []
 result_nodenames = ""
 
-with open('C:\Zhiwei_Song\Wisconsin\Roy_Lab\Zhiwei_Work\RoadMap_Networks\Data\RoadMap_Networks\edgelist\\' + cells + '_no_weight.edgelist') as f:
+with open('Data\RoadMap_Networks\edgelist\\' + cells + '_no_weight.edgelist') as f:
     lines = f.readlines()
 
-with open('C:\Zhiwei_Song\Wisconsin\Roy_Lab\Zhiwei_Work\RoadMap_Networks\Data\Roadmap_Networks\\adj_matrix\\' + cells + '_nodeNames.txt') as f2:
+with open('Data\Roadmap_Networks\\adj_matrix\\' + cells + '_nodeNames.txt') as f2:
     Names = f2.readlines()
 
 for line in lines:
@@ -27,7 +27,7 @@ for line in lines:
         nodenames.append(int(first_ID))
         result_nodenames += Names[int(first_ID)]
 
-f1 = open("C:\Zhiwei_Song\Wisconsin\Roy_Lab\Zhiwei_Work\RoadMap_Networks\Data\RoadMap_Networks\edgelist\edgelist_names\\" + cells + "_no_weight.txt", "w")
+f1 = open("Data\RoadMap_Networks\edgelist\edgelist_names\\" + cells + "_no_weight.txt", "w")
 
 f1.write(result)
 
